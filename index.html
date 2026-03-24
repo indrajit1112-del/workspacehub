@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-1: #3b82f6; /* Blue */
+            --accent-2: #8b5cf6; /* Violet */
+            --accent-3: #10b981; /* Emerald */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease-out;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInUp 1s ease-out backwards;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Staggered animation delays */
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        /* The glowing mouse effect layer */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                rgba(255, 255, 255, 0.06), 
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .icon-wrapper {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.4s;
+        }
+        
+        .card:hover .icon-wrapper {
+            transform: scale(1.1);
+        }
+
+        .card:nth-child(1) .icon-wrapper {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-1);
+            box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.2);
+        }
+
+        .card:nth-child(2) .icon-wrapper {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-2);
+            box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.2);
+        }
+
+        .card:nth-child(3) .icon-wrapper {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-3);
+            box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+            font-size: 1.05rem;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            gap: 0.5rem;
+            transition: gap 0.3s;
+            margin-top: auto;
+        }
+
+        .card:nth-child(1) .card-footer { color: var(--accent-1); }
+        .card:nth-child(2) .card-footer { color: var(--accent-2); }
+        .card:nth-child(3) .card-footer { color: var(--accent-3); }
+
+        .card:hover .card-footer {
+            gap: 1rem;
+        }
+
+        .card-footer svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover .card-footer svg {
+            transform: translateX(4px);
+        }
+
+        /* Abstract shapes */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.5;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(59, 130, 246, 0.3);
+            top: -10%;
+            left: -10%;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(139, 92, 246, 0.2);
+            bottom: -20%;
+            right: -10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .card { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <div class="header">
+        <h1>Workspace Hub</h1>
+        <p>Access your essential logistics, location, and pricing tools from one centralized, streamlined interface.</p>
+    </div>
+
+    <div class="grid" id="cards">
+        <!-- Card 1: Logistics Autofill -->
+        <a href="https://indrajit1112-del.github.io/logistics-autofill/" class="card" target="_blank" rel="noopener noreferrer">
+            <div class="icon-wrapper">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <path d="M8 14h.01"></path>
+                    <path d="M12 14h.01"></path>
+                    <path d="M16 14h.01"></path>
+                    <path d="M8 18h.01"></path>
+                    <path d="M12 18h.01"></path>
+                    <path d="M16 18h.01"></path>
+                </svg>
+            </div>
+            <h2>Logistics Autofill</h2>
+            <p>Automatically parse and pre-fill shipping information to streamline your entire logistics workflow.</p>
+            <div class="card-footer">
+                Launch App
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </a>
+
+        <!-- Card 2: Pincode Checker -->
+        <a href="https://pincode-checker-hwujvy4zrfkresbvx5rsqx.streamlit.app/" class="card" target="_blank" rel="noopener noreferrer">
+            <div class="icon-wrapper">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+            </div>
+            <h2>Pincode Checker</h2>
+            <p>Verify shipping availability instantly by checking service coverage for any delivery location pincode.</p>
+            <div class="card-footer">
+                Launch App
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </a>
+
+        <!-- Card 3: Price Checker -->
+        <a href="https://lvixspqvej8elhgodrgzhg.streamlit.app/" class="card" target="_blank" rel="noopener noreferrer">
+            <div class="icon-wrapper">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                </svg>
+            </div>
+            <h2>Price Checker</h2>
+            <p>Quickly look up rates and pricing estimates to ensure accurate billing for all your shipments.</p>
+            <div class="card-footer">
+                Launch App
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // Adding dynamic mouse tracking for the subtle glow effect on cards
+        document.getElementById("cards").onmousemove = e => {
+            for(const card of document.getElementsByClassName("card")) {
+                const rect = card.getBoundingClientRect(),
+                    x = e.clientX - rect.left,
+                    y = e.clientY - rect.top;
+
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            };
+        }
+    </script>
+</body>
+</html>
