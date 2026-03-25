@@ -15,6 +15,7 @@
             --accent-1: #3b82f6; /* Blue */
             --accent-2: #8b5cf6; /* Violet */
             --accent-3: #10b981; /* Emerald */
+            --accent-4: #ec4899; /* Pink */
         }
 
         * {
@@ -98,6 +99,7 @@
         .card:nth-child(1) { animation-delay: 0.1s; }
         .card:nth-child(2) { animation-delay: 0.2s; }
         .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
 
         /* The glowing mouse effect layer */
         .card::before {
@@ -164,6 +166,12 @@
             box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
         }
 
+        .card:nth-child(4) .icon-wrapper {
+            background: rgba(236, 72, 153, 0.1);
+            color: var(--accent-4);
+            box-shadow: inset 0 0 0 1px rgba(236, 72, 153, 0.2);
+        }
+
         .card h2 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -196,6 +204,7 @@
         .card:nth-child(1) .card-footer { color: var(--accent-1); }
         .card:nth-child(2) .card-footer { color: var(--accent-2); }
         .card:nth-child(3) .card-footer { color: var(--accent-3); }
+        .card:nth-child(4) .card-footer { color: var(--accent-4); }
 
         .card:hover .card-footer {
             gap: 1rem;
@@ -321,6 +330,25 @@
             </div>
             <h2>Price Checker</h2>
             <p>Quickly look up rates and pricing estimates to ensure accurate billing for all your shipments.</p>
+            <div class="card-footer">
+                Launch App
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </a>
+
+        <!-- Card 4: Quote Generator -->
+        <a href="https://indrajit1112-del.github.io/quotationgenerator/" class="card" target="_blank" rel="noopener noreferrer">
+            <div class="icon-wrapper">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            </div>
+            <h2>XRIG Quote Generator</h2>
+            <p>Paste specifications to instantly generate a branded quotation ready for sharing.</p>
             <div class="card-footer">
                 Launch App
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
